@@ -1,0 +1,51 @@
+name: terraform-test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  TERRAFORM_VERSION: "1.17.1"
+
+jobs:
+  fmt-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+
+      - run: terraform fmt -check -recursive -diff
+
+      - run: terraform init -backend=false -input=false
+
+      - run: terraform validate
+
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+
+      - working-directory: test
+        run: terraform init -backend=false -input=false
+
+      - working-directory: test
+        run: terraform validate
+
+      # mock_provider throughout, so no AWS credentials are referenced.
+      - working-directory: test
+        run: terraform test -filter=plan.tftest.hcl
+
+      - working-directory: test
+        run: terraform test -filter=validation.tftest.hcl
