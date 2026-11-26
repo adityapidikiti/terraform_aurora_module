@@ -53,8 +53,8 @@ When `environment = "prod"` the module forces:
   turned off
 - `skip_final_snapshot = false` — a final snapshot is always taken
 
-Both apply regardless of what you pass. Non-prod uses your values, which
-default to protection off and snapshot skipped.
+Both apply regardless of what you pass. Non-prod uses your values: deletion
+protection defaults to on, and the final snapshot is skipped by default.
 
 ## Parameter groups
 
@@ -144,7 +144,7 @@ created.
 | app | Application the database belongs to. | `string` | n/a | yes |
 | managed_by | Team responsible for the database. | `string` | n/a | yes |
 | environment | Deployment environment; drives the prod guards. | `string` | n/a | yes |
-| apply_immediately | Apply changes immediately rather than in the maintenance window. | `bool` | `false` | no |
+| apply_immediately | Apply changes immediately rather than in the maintenance window. | `bool` | `true` | no |
 | autoscaling_cpu_target | Reader CPU target percentage. | `number` | `70` | no |
 | autoscaling_scale_in_cooldown | Scale-in cooldown, seconds. | `number` | `300` | no |
 | autoscaling_scale_out_cooldown | Scale-out cooldown, seconds. | `number` | `300` | no |
@@ -158,7 +158,7 @@ created.
 | db_parameter_group_name | Existing DB parameter group. | `string` | `null` | no |
 | db_parameter_group_parameters | Parameters for the created DB group. | `list(any)` | `[]` | no |
 | db_subnet_group_name | Existing DB subnet group. | `string` | `null` | no |
-| deletion_protection | Block deletion. Forced true in prod. | `bool` | `false` | no |
+| deletion_protection | Block deletion. Defaults on; forced on in prod. | `bool` | `true` | no |
 | enabled_cloudwatch_logs_exports | Log types to export. | `list(string)` | `[]` | no |
 | engine | aurora-mysql or aurora-postgresql. | `string` | `"aurora-postgresql"` | no |
 | engine_version | Engine version. | `string` | `null` | no |

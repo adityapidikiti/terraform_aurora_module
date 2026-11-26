@@ -81,6 +81,9 @@ module "existing" {
   db_subnet_group_name = "my-existing-subnet-group"
   master_password      = "supplied-password-123"
 
+  # Explicit opt-out, to keep the disable path covered now that the default is on.
+  deletion_protection = false
+
   app         = "terraform-aurora-tests"
   managed_by  = "platform"
   environment = "stage"

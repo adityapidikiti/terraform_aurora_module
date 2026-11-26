@@ -150,14 +150,14 @@ variable "snapshot_identifier" {
 
 variable "deletion_protection" {
   type        = bool
-  description = "Block deletion of the cluster. Forced to true when environment is prod."
-  default     = false
+  description = "Block deletion of the cluster. Defaults to on, and is forced on when environment is prod."
+  default     = true
 }
 
 variable "apply_immediately" {
   type        = bool
   description = "Apply changes immediately instead of during the maintenance window."
-  default     = false
+  default     = true
 }
 
 # Encryption

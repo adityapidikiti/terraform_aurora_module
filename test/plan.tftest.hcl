@@ -85,8 +85,13 @@ run "production_is_protected" {
   }
 
   assert {
-    condition     = module.postgres.deletion_protection == false
-    error_message = "Non-prod should not have deletion protection by default."
+    condition     = module.postgres.deletion_protection == true
+    error_message = "Deletion protection should default to on in every environment."
+  }
+
+  assert {
+    condition     = module.existing.deletion_protection == false
+    error_message = "Deletion protection must be disableable for non-prod."
   }
 }
 
